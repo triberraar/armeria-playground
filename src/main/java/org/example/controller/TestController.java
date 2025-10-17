@@ -59,6 +59,8 @@ public class TestController {
                                                                    StandardCharsets.UTF_8)) {
 
             putAndWriteFile(zipOutputStream, "", bytes, "test.txt");
+            putAndWriteFile(zipOutputStream, "", bytes, "test1.txt");
+            putAndWriteFile(zipOutputStream, "", bytes, "test2.txt");
 
             zipOutputStream.close();
             return bytesOutputStream.toByteArray();
@@ -77,6 +79,8 @@ public class TestController {
                                                                    StandardCharsets.UTF_8)) {
 
             putAndWriteFile(zipOutputStream, "", bytes, "test.txt");
+            putAndWriteFile(zipOutputStream, "", bytes, "test1.txt");
+            putAndWriteFile(zipOutputStream, "", bytes, "test2.txt");
 
             zipOutputStream.close();
             return HttpResponse.of(
