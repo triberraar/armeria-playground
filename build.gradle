@@ -1,0 +1,65 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'org.springframework.boot' version '2.7.18'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'java'
+}
+
+group = 'com.linecorp.armeria.play'
+sourceCompatibility = '17'
+
+repositories {
+    maven { url 'https://repo.linecorp.com/content/repositories/releases/' }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.google.guava:guava:31.1-jre'
+    implementation platform("com.linecorp.armeria:armeria-bom:${findProperty("armeria.version")}")
+    implementation 'com.linecorp.armeria:armeria-spring-boot2-starter'
+    implementation 'com.linecorp.armeria:armeria-tomcat9'
+    implementation 'com.linecorp.armeria:armeria-spring-boot2-actuator-autoconfigure'
+    implementation 'com.linecorp.armeria:armeria-spring-boot2-actuator-starter'
+    implementation 'com.linecorp.armeria:armeria-logback12'
+    implementation "com.linecorp.armeria:armeria-line-spring-boot2:${findProperty("armeria.line.version")}"
+    implementation 'com.fasterxml.jackson.core:jackson-core'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'dev.akkinoc.spring.boot:logback-access-spring-boot-starter:3.4.3'
+
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+test {
+    useJUnitPlatform {
+    }
+    testLogging {
+        exceptionFormat = 'full'
+    }
+}
+
+springBoot {
+    buildInfo()
+}
+
+processResources {
+    filter(ReplaceTokens, tokens: [
+            'PROJECT_NAME'   : project.name,
+            'PROJECT_VERSION': project.version
+    ])
+}
+
+jar {
+    enabled = false
+}
+
+bootJar {
+    if (project.hasProperty("archiveAppendix")) {
+        archiveAppendix.set(project.properties["archiveAppendix"] as String)
+    }
+    launchScript()
+}

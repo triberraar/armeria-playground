@@ -1,0 +1,41 @@
+spring:
+  profiles:
+    active: local
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      # max-file-size * 画像の最大枚数40 + α
+      max-request-size: 500MB
+
+project:
+  name: "@PROJECT_NAME@"
+  version: "@PROJECT_VERSION@"
+
+server:
+  error:
+    path: /error
+  tomcat:
+    accesslog:
+      enabled: true
+      rotate: true
+      max-days: 7
+      pattern: '%h %{username}r %t "%r" %s %b'
+    basedir: ./
+  # Prevent tomcat from opening port, as we use embedded tomcat in armeria.
+  port: -1
+
+springdoc:
+  api-docs:
+    enabled: false
+    path: /swagger-ui/api-docs
+
+base-url: DUMMY_URL
+
+armeria:
+  ports:
+    - port: 8080
+      protocols:
+        - HTTP
+  internal-services:
+    include: docs, actuator, health, metrics
+    port: 8081

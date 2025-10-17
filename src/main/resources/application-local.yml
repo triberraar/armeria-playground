@@ -1,0 +1,17 @@
+executor:
+  core-pool-size: 10
+
+logging:
+  level:
+    org.apache.http.wire: INFO
+
+springdoc:
+  api-docs:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      base-path: /monitor
+      exposure:
+        include: "health, prometheus, info, threaddump"
